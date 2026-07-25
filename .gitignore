@@ -11,7 +11,7 @@ frontend/.env.local
 venv/
 __pycache__/
 *.pyc
-# NOTE: *.pkl is intentionally NOT excluded — pickle/model.pkl must be committed for hackathon submission
+# NOTE: *.pkl is intentionally NOT excluded — pickle/model.pkl must be committed so the CLI pipeline runs out of the box
 # features.pkl (repo root) is a runtime-generated intermediate artifact — run.sh regenerates
 # it fresh on every run before it's ever read, so it doesn't need to be committed.
 /features.pkl
@@ -20,7 +20,7 @@ __pycache__/
 forecast_iq.db
 
 # CatBoost training logs — auto-regenerated on every train run (catboost_training.json,
-# events.out.tfevents, time_left.tsv), pure noise in diffs, not meaningful submission content.
+# events.out.tfevents, time_left.tsv), pure noise in diffs, not meaningful repo content.
 catboost_info/
 
 # Node / Next.js

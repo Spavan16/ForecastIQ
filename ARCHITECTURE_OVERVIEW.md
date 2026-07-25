@@ -120,7 +120,7 @@ src/evaluation.py
   - writes output/backtest_scorecard.csv and output/backtest_summary.json
 ```
 
-The evaluator is intentionally separate from `run.sh` so the hackathon submission command remains fast and contract-compliant, while the project still has a judge-facing reliability story with WAPE, SMAPE, MAE, and interval coverage.
+The evaluator is intentionally separate from `run.sh` so the core pipeline command remains fast and contract-compliant, while the project still has a reviewer-facing reliability story with WAPE, SMAPE, MAE, and interval coverage.
 
 ---
 

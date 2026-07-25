@@ -66,11 +66,9 @@ class NumberedCanvas(canvas.Canvas):
         self.drawString(78, 11 * 72 - 44, "ForecastIQ")
         self.setFont("Helvetica", 7.5)
         self.setFillColor(colors.HexColor("#8A7A6E"))
-        # BUG fix: this was "NetElixir AIgnition 2026" -- the competition's official name per
-        # the Project Brief T&Cs is "AIgnition 3.0" (2026 is just the year, not part of the
-        # name). Unlike the README fix, this one was baked into the header of every page of
-        # the downloadable PDF report -- exactly the kind of thing a judge reads directly.
-        self.drawRightString(8.5 * 72 - 54, 11 * 72 - 44, "NetElixir AIgnition 3.0 \u2014 Revenue Intelligence Report")
+        # NOTE: PDF header text — this is baked into every page of the downloadable report,
+        # so it's exactly the kind of thing a reader sees directly.
+        self.drawRightString(8.5 * 72 - 54, 11 * 72 - 44, "ForecastIQ \u2014 Revenue Intelligence Report")
 
         self.setStrokeColor(colors.HexColor("#E4D6C8"))
         self.setLineWidth(0.75)
@@ -192,7 +190,7 @@ class EnterprisePDFReport:
 
     def _section_head(self, number: str, title: str, meta: Optional[str] = None) -> List:
         """Numbered section badge + serif title + thin terracotta rule — the same visual
-        grammar as OverviewSectionHead in the dashboard (01 / 02 / 03...), so a judge
+        grammar as OverviewSectionHead in the dashboard (01 / 02 / 03...), so a reviewer
         reading the PDF after seeing the live app recognizes the same design system."""
         row = [
             Paragraph(number, self.styles['SectionBadge']),
@@ -437,7 +435,7 @@ class EnterprisePDFReport:
             story.append(t_bt)
             story.append(Spacer(1, 12))
 
-            # BUG fix (judge audit): this summary sentence was a hardcoded string that silently
+            # BUG fix (code audit): this summary sentence was a hardcoded string that silently
             # went stale whenever the underlying backtest numbers changed (e.g. after blend-weight
             # or interval-scale tuning), even though the table above it was already computed live
             # from backtest_summary.json. Building it from the same baseline_rows data the table
@@ -677,8 +675,8 @@ class EnterprisePDFReport:
         # Sign-off block: honest student-team credit, consistent with the dashboard's sign-off.
         story.append(KeepTogether([
             HRFlowable(width="100%", thickness=1, color=self.c_border, spaceBefore=10, spaceAfter=10),
-            Paragraph("<b>ForecastIQ</b> \u2014 built for the NetElixir AIgnition 3.0 Hackathon Challenge.", self.styles['BodyCustom']),
-            Paragraph("<i>Engineered by Pavan &amp; Rohindth, Dayananda Sagar University.</i>", self.styles['FootnoteText'])
+            Paragraph("<b>ForecastIQ</b> \u2014 offline-capable marketing revenue forecasting utility.", self.styles['BodyCustom']),
+            Paragraph("<i>Engineered by Pavan Kumar S &amp; Rohindth, Dayananda Sagar University.</i>", self.styles['FootnoteText'])
         ]))
 
         # Build Document

@@ -109,7 +109,7 @@ class ExplainabilityEngine:
             # Previously mislabeled "P50" here, which borrows probabilistic-forecast language
             # (the app's real P10/P50/P90 forecast intervals live in models.py/predictions.csv)
             # for a plain historical aggregate that has no distributional basis at all — a
-            # judge-facing mislabeling risk. Labeled "Historical ROAS" instead, which is what
+            # reviewer-facing mislabeling risk. Labeled "Historical ROAS" instead, which is what
             # this value actually is.
             if roas >= 4.0:
                 return f"High (Historical ROAS: {roas:.1f}x)"

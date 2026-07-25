@@ -118,13 +118,13 @@ This grounds every LLM response in actual computed numbers rather than general m
 
 ### Offline Fallback: Rule-Based Causal Engine
 
-When no API key is present (e.g. on the automated scoring pipeline), the system falls back to a fully data-driven rule engine (`rule_engine.py`) and a data-driven chat engine (`chat_engine.py`). These compute the same analytical statistics from the data and generate structured causal narratives — with real numbers from the actual dataset — without any network calls.
+When no API key is present (e.g. in an automated CI/evaluation run), the system falls back to a fully data-driven rule engine (`rule_engine.py`) and a data-driven chat engine (`chat_engine.py`). These compute the same analytical statistics from the data and generate structured causal narratives — with real numbers from the actual dataset — without any network calls.
 
 This design ensures the forecasting utility functions completely offline while maintaining high-quality AI-assisted insights in production environments where an API key is available.
 
-### Graded-Pipeline Causal Summary (`predict.py` → `output/causal_summary.json`)
+### Pipeline Causal Summary (`predict.py` → `output/causal_summary.json`)
 
-The Project Brief lists AI-assisted causal summaries as a required "Working Prototype" capability. `src/predict.py` — the script `run.sh` actually invokes — writes `output/causal_summary.json` alongside `predictions.csv` on every run, using `MockLLMProvider` directly (not the API-key-autodetecting factory) so this graded artifact stays 100% network-free regardless of local `.env` configuration, matching the Submission Guide's "no network calls at runtime" contract. The summary is built from the same real 90-day P50 revenue/ROAS forecast and channel breakdown produced by that run — not hardcoded text.
+AI-assisted causal summaries are a core "Working Prototype" capability. `src/predict.py` — the script `run.sh` actually invokes — writes `output/causal_summary.json` alongside `predictions.csv` on every run, using `MockLLMProvider` directly (not the API-key-autodetecting factory) so this artifact stays 100% network-free regardless of local `.env` configuration, matching the "no network calls at runtime" contract. The summary is built from the same real 90-day P50 revenue/ROAS forecast and channel breakdown produced by that run — not hardcoded text.
 
 ### LLM Use Cases
 

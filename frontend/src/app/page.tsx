@@ -1637,7 +1637,7 @@ function TabBudget({
               </div>
             </div>
           )}
-          {/* BUG fix (pre-submission live UI audit): the fetch .catch() here previously only
+          {/* BUG fix (pre-release live UI audit): the fetch .catch() here previously only
               reset loading state and silently swallowed the error -- an invalid/edge-case
               slider combination would just show nothing at all, with no indication anything
               had gone wrong. Surface the actual message instead of a silent no-op. */}
@@ -1686,7 +1686,7 @@ function TabBudget({
               </div>
             </div>
           )}
-          {/* BUG fix (pre-submission live UI audit): same silent-swallow pattern as the
+          {/* BUG fix (pre-release live UI audit): same silent-swallow pattern as the
               Live Budget Simulator above. Confirmed live: Max Budget = 0 now correctly
               returns a 400 with a real message from the backend fix, but until this, the
               UI just stopped spinning and showed nothing -- no indication the run failed
@@ -2313,7 +2313,7 @@ export default function Page() {
       body: JSON.stringify({ channel_pcts: simInputs }),
     })
       .then(data => { setSimResult(data); setSimLoading(false); })
-      // BUG fix (pre-submission live UI audit): previously only reset loading state and
+      // BUG fix (pre-release live UI audit): previously only reset loading state and
       // swallowed the error entirely, matching the same fetchJson convention used for every
       // other panel's error state (see the useEffect above) instead of a silent no-op.
       .catch(e => { setSimError(String(e.message ?? e)); setSimLoading(false); });
@@ -2338,7 +2338,7 @@ export default function Page() {
       body: JSON.stringify(optInputs),
     })
       .then(data => { setOptResult(data); setOptLoading(false); })
-      // BUG fix (pre-submission live UI audit): previously only reset loading state and
+      // BUG fix (pre-release live UI audit): previously only reset loading state and
       // swallowed the error entirely -- e.g. Max Budget = 0 now correctly returns a 400 with
       // a real message from the backend fix, but the UI just went quiet with no indication
       // the run failed or why. Also clear stale optResult on a new run so a previous

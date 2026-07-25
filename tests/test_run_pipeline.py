@@ -1,12 +1,12 @@
 """
-Smoke test for the graded run.sh pipeline (generate_features.py -> predict.py).
+Smoke test for the core run.sh pipeline (generate_features.py -> predict.py).
 
-Judge audit (High Issue #6) flagged zero automated tests anywhere in the repo, despite
+Code audit (High Issue #6) flagged zero automated tests anywhere in the repo, despite
 a documented history of bugs found via manual forensic audit -- exactly the failure mode
-a cheap smoke test exists to catch before the July 19 deadline.
+a cheap smoke test exists to catch.
 
-No pytest dependency added on purpose (requirements.txt is pinned and locked days before
-submission -- not worth the risk of a version mismatch on the grading machine for one
+No pytest dependency added on purpose (requirements.txt is pinned and kept minimal --
+not worth the risk of a version mismatch on the evaluation environment for one
 test file). Plain asserts, run directly:
 
     python tests/test_run_pipeline.py
@@ -79,9 +79,9 @@ def test_fails_loudly_on_missing_model():
 
 
 def test_fails_loudly_on_corrupt_model():
-    # Judge audit (High Issue #5, follow-up): the missing-path case above doesn't exercise a
+    # Code audit (High Issue #5, follow-up): the missing-path case above doesn't exercise a
     # model.pkl that EXISTS but fails to unpickle -- a version mismatch between the environment
-    # it was pickled in and the grading environment, which the Submission Guide calls "the single
+    # it was pickled in and the evaluation environment, which the project spec calls "the single
     # most common reason submissions fail." This writes garbage bytes to a real file at the
     # expected path so load_models()'s pickle.load() itself throws, not just a missing-file check.
     corrupt_path = ROOT / "pickle" / "corrupt_test.pkl"

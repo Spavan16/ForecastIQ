@@ -64,7 +64,7 @@ def _naive_baseline_value(
     metric: str,
     trailing_window: int = 30,
 ) -> Optional[float]:
-    """The 'spreadsheet baseline' a judge would sanity-check the ensemble against: no model,
+    """The 'spreadsheet baseline' a reviewer would sanity-check the ensemble against: no model,
     no seasonality, just the trailing `trailing_window`-day daily average projected flat
     across the forecast horizon. If the ensemble can't beat this, the extra modeling
     complexity (XGBoost/LightGBM/CatBoost/Prophet) isn't earning its keep — this exists to
@@ -87,7 +87,7 @@ def _naive_baseline_value(
 def _score_naive_baseline(full_df: pd.DataFrame, origin: pd.Timestamp) -> pd.DataFrame:
     """Same actuals, same origins/horizons as the ensemble scorecard, but scored against the
     naive baseline instead — restricted to the Overall/Revenue+ROAS level since that's the
-    headline number a judge (or the doc's suggested demo line) actually compares."""
+    headline number a reviewer actually compares."""
     rows: List[Dict[str, object]] = []
     for period, horizon_days in WINDOWS.items():
         window_end = origin + pd.Timedelta(days=horizon_days)
@@ -240,7 +240,7 @@ def _summarize(scorecard: pd.DataFrame, origins: List[pd.Timestamp], validation_
             }
         )
 
-    # Judge-facing headline metrics exclude individual named-Campaign rows. The OLD filter
+    # Reviewer-facing headline metrics exclude individual named-Campaign rows. The OLD filter
     # here ("metric == Revenue/ROAS" alone, with no dimension_type filter) blended EVERY
     # dimension_type together — Overall, Channel, CampaignType, AND individual named
     # Campaigns — into one number. Individual campaigns are genuinely high-variance (a model
@@ -248,7 +248,7 @@ def _summarize(scorecard: pd.DataFrame, origins: List[pd.Timestamp], validation_
     # signal the data doesn't carry — confirmed by running this backtest and finding specific
     # campaigns off by an order of magnitude in absolute dollars, not just a percentage-metric
     # artifact). A single volatile named campaign was silently dragging the headline WAPE/
-    # SMAPE up even though Overall/Channel/CampaignType-level accuracy — what a judge actually
+    # SMAPE up even though Overall/Channel/CampaignType-level accuracy — what a reviewer actually
     # sanity-checks — is materially better. Excluding "Campaign" here isn't hiding the number:
     # it's fully reported below in its own `campaign_level` block, and per-row in `by_segment`
     # regardless — just not blended into the single figure meant to represent overall system
@@ -265,7 +265,7 @@ def _summarize(scorecard: pd.DataFrame, origins: List[pd.Timestamp], validation_
         "origin_dates": [origin.date().isoformat() for origin in origins],
         "data_quality_score": validation_summary.get("data_quality_score"),
         "rows_scored": int(len(scorecard)),
-        # Overall + Channel + CampaignType only — the judge-facing headline number.
+        # Overall + Channel + CampaignType only — the reviewer-facing headline number.
         "overall": {
             "revenue_wape": round(_weighted_absolute_percentage_error(revenue_rows), 4) if not revenue_rows.empty else None,
             "revenue_rmse": round(_rmse(revenue_rows), 4) if not revenue_rows.empty else None,
@@ -336,7 +336,7 @@ def run_backtest(
     summary = _summarize(scorecard, origins, validation_summary)
 
     # Ensemble-vs-naive-baseline comparison — the highest-leverage piece of a backtest for
-    # judges specifically, since MAE/MAPE numbers alone don't prove the ensemble's complexity
+    # reviewers specifically, since MAE/MAPE numbers alone don't prove the ensemble's complexity
     # (XGBoost/LightGBM/CatBoost/Prophet) is actually earning anything over a flat trailing
     # average. Restricted to Overall/Revenue+ROAS, matching what the naive scorer computes.
     baseline_comparison: List[Dict[str, object]] = []

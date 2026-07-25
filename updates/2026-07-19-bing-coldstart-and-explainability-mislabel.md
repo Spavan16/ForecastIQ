@@ -1,4 +1,4 @@
-# Update: Pre-Submission Audit — Bing Cold-Start Contamination + Explainability Mislabel
+# Update: Pre-Release Audit — Bing Cold-Start Contamination + Explainability Mislabel
 
 **Date:** July 19, 2026
 **Scope:** `src/models.py`, `src/budget_optimizer.py`, `src/explainability.py`, `.gitattributes`, `output/`
@@ -9,7 +9,7 @@
 
 Live dashboard showed Bing Ads' 30-day ROAS forecast at **0.64x median**, against a
 trailing 30/60-day actual ROAS of 1.65x/1.32x — an obviously wrong, order-of-magnitude
-mismatch caught by a manual pre-submission spot-check, not a backtest fold.
+mismatch caught by a manual pre-release spot-check, not a backtest fold.
 
 **Root cause:** `_monthly_seasonal_index()` in `src/models.py` (the same function fixed
 for the January/Nov-Dec spike on July 17) had a second, distinct blind spot: it gates a
@@ -58,7 +58,7 @@ comparison of Optuna's resulting recommendation rather than a formal metric.
 ROAS (`sum(revenue)/sum(spend)` across all history) as **"P50"** — borrowing
 probabilistic-forecast language from the app's real P10/P50/P90 forecast intervals
 (`models.py`/`predictions.csv`) for a plain historical aggregate with no distributional
-basis at all. A judge-facing mislabeling risk: it implies this number is a forecast
+basis at all. A reader-facing mislabeling risk: it implies this number is a forecast
 percentile when it's a trailing average.
 
 **Fix:** relabeled to **"Historical ROAS"**, explicit in both the stability tier string

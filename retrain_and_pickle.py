@@ -86,4 +86,4 @@ p50_30 = result['30_days']['Revenue_P50']
 p50_90 = result['90_days']['Revenue_P50']
 print(f"  30-day P50 Revenue : ${p50_30:,.0f}")
 print(f"  90-day P50 Revenue : ${p50_90:,.0f}")
-print("\nAll good. Commit pickle/model.pkl to git before submission.")
+print("\nAll good. Commit pickle/model.pkl to git before committing.")

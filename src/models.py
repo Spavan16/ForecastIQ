@@ -85,7 +85,7 @@ class EnsembleForecaster:
         # this risks fitting these specific folds rather than a real property of the data, the
         # same trap already flagged and avoided for PHI/top_down_weight elsewhere in this file.
         self.interval_calibration_scale: float = 1.0
-        # Hierarchical reconciliation (judge audit, campaign-level WAPE 70.8% BEFORE this fix
+        # Hierarchical reconciliation (code audit, campaign-level WAPE 70.8% BEFORE this fix
         # was added; 52.6% after -- see the top_down_weight sweep note at its point of use in
         # forecast_dimension() for the current, backtest-verified value): each campaign's own
         # model is trained on only 6 calendar features against a single, often sparse/short
@@ -413,7 +413,7 @@ class EnsembleForecaster:
         damping = np.power(PHI, days)
         baseline_daily = base_level + trend_per_day * days * damping
 
-        # BUG fix (judge re-audit, July 2026): model_blend_weight was previously a single value
+        # BUG fix (follow-up code audit, July 2026): model_blend_weight was previously a single value
         # shared by both revenue and spend forecasts. Dropping it to 0.08 to fix Revenue-vs-naive
         # (see _recent_baseline docstring) had an unintended side effect on ROAS, which is DERIVED
         # as revenue_p50/spend_sum, not forecast independently: it silently dragged spend's blend
@@ -627,13 +627,13 @@ class EnsembleForecaster:
         training run. Verified concretely: two predict.py runs against genuinely different
         held-out data (different sampled rows, different actual revenue/spend totals) produced
         BYTE-IDENTICAL Overall forecasts, because the new data's real spend/revenue never
-        reached the forecast math — only max(date) did, via start_date. Given the hackathon's
+        reached the forecast math — only max(date) did, via start_date. Given the pipeline's
         held-out set could represent meaningfully different business conditions than whatever
         was true on this machine when model.pkl was last trained, that's an accuracy risk, not
         just a cosmetic one.
 
         This method does NOT retrain any model (no .fit() calls, self.models is untouched),
-        so it stays fully compliant with the hackathon contract ("we do not retrain... the
+        so it stays fully compliant with the pipeline contract ("we do not retrain... the
         test run only generates features and predicts") — it only updates the numeric anchor
         a frozen model's output gets blended against, so the forecast actually reflects the
         held-out data's real recent level instead of silently replaying training-time numbers.
@@ -931,7 +931,7 @@ class EnsembleForecaster:
         
         std_rev = self.residuals_std.get(f"{prefix}_{dimension_key}", 500.0)
 
-        # Hierarchical reconciliation (judge audit, campaign-level WAPE 70.8%): a campaign-level
+        # Hierarchical reconciliation (code audit, campaign-level WAPE 70.8%): a campaign-level
         # model is trained on only 6 calendar features against one campaign's often sparse daily
         # history, while its channel's model sees far more data and is measurably more accurate.
         # Compute the channel-level forecast once (not per-window) and blend it in below as a

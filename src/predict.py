@@ -75,20 +75,20 @@ def main():
     # Load Model Artifact
     forecaster = EnsembleForecaster(model_path=model_path)
     if not forecaster.load_models():
-        # BUG fix (judge audit, High Issue #4, July 2026): this used to silently train an
+        # BUG fix (code audit, High Issue #4, July 2026): this used to silently train an
         # "instant backup ensemble" ON THE TEST DATA ITSELF when the pickle failed to load,
-        # then continue on to produce a predictions.csv as if nothing had gone wrong. The
-        # Hackathon Submission Guide is explicit on both counts this violated: "The model
+        # then continue on to produce a predictions.csv as if nothing had gone wrong.
+        # The project spec is explicit on both counts this violated: "The model
         # must be already trained and committed — we do not retrain. The test run only
         # generates features and predicts," and separately, the pipeline "should fail
         # loudly... rather than silently produce a bad output file." A silent retrain-on-test
         # fallback does exactly the opposite of both instructions, in precisely the scenario
-        # (pickle version mismatch) the guide calls out as the single most common submission
+        # (pickle version mismatch) the guide calls out as the single most common release
         # failure. Now fails loudly with a clear error and non-zero exit code instead, per
         # the letter of the contract — no fallback training path.
         logger.error(
-            f"FATAL: Pickled model missing or invalid at '{model_path}'. Per the Hackathon "
-            f"Submission Guide's 'we do not retrain' contract, this run cannot silently train "
+            f"FATAL: Pickled model missing or invalid at '{model_path}'. Per the "
+            f"project spec's 'we do not retrain' contract, this run cannot silently train "
             f"a replacement model on test data. Re-commit a valid pickle/model.pkl trained in "
             f"an environment matching requirements.txt."
         )
@@ -122,14 +122,14 @@ def main():
         logger.error(f"Fatal error generating master predictions CSV: {str(e)}")
         sys.exit(1)
 
-    # BUG fix (judge audit, Critical Issue #2, July 2026): the Project Brief lists
+    # BUG fix (code audit, Critical Issue #2, July 2026): the project brief lists
     # "AI-assisted causal summaries" as a required "Working Prototype" capability, but that
     # layer previously only existed in the separate FastAPI/Next.js SaaS app — never inside
-    # `run.sh`'s pipeline, which the Submission Guide's own test sequence is the ONLY thing
+    # `run.sh`'s pipeline, which the project spec's own test sequence is the ONLY thing
     # that gets run. Wired directly here so the graded artifact set includes it.
     #
     # Deliberately instantiates MockLLMProvider directly rather than going through
-    # get_llm_provider()'s GEMINI_API_KEY auto-detection: the Submission Guide's contract is
+    # get_llm_provider()'s GEMINI_API_KEY auto-detection: the project spec's contract is
     # "no network calls at runtime" for the scored pipeline, and this must stay true
     # regardless of whether a local .env happens to have a live key configured. The Mock
     # provider still produces real, data-grounded prose from the actual forecast numbers
@@ -161,7 +161,7 @@ def main():
             for _, row in channel_rows.iterrows()
         ]
 
-        # BUG fix (judge audit, "thin/templated causal summary"): channel_breakdown above was
+        # BUG fix (code audit, "thin/templated causal summary"): channel_breakdown above was
         # already computed and written into causal_payload, but never actually reached
         # generate_insight()'s context, so the causal_summary text fell back to generic
         # phrasing ("your highest-volume channels", "whichever channel is showing the highest
@@ -209,7 +209,7 @@ def main():
         ]
         total_ctype_rev = float(ctype_rows["p50"].sum()) or 1.0
 
-        # BUG fix (judge audit, Medium Issue #9): several campaign types (VIDEO, DISPLAY,
+        # BUG fix (code audit, Medium Issue #9): several campaign types (VIDEO, DISPLAY,
         # AUDIENCE) forecast near-$0.00 90-day revenue. Verified directly against the raw
         # data (not assumed): all three genuinely stopped spending well before the forecast
         # start date -- e.g. DISPLAY's last real spend was 645 days before start_date, VIDEO's

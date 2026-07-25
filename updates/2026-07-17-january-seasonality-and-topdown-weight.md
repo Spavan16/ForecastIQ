@@ -94,7 +94,7 @@ parameter.
 `predict.py` loads `pickle/model.pkl` via `load_models()`, which **overwrites**
 `top_down_weight` from the saved artifact — falling back to a hardcoded `0.65` if the key
 is missing. The pre-existing pickle predated this attribute, so the swept `0.5` value was
-silently *not* reaching the actual submission pipeline until the pickle itself was
+silently *not* reaching the actual production pipeline until the pickle itself was
 regenerated.
 
 Fixed by running the existing, sanctioned `retrain_and_pickle.py` (trains on the full
@@ -113,7 +113,7 @@ calibration scales, top_down_weight) requires a pickle regeneration to actually 
 
 ## 4. Verification
 
-Ran the full submission pipeline end-to-end (`run.sh` → `generate_features.py` →
+Ran the full pipeline end-to-end (`run.sh` → `generate_features.py` →
 `predict.py`) twice — once before and once after the pickle regeneration — confirming
 clean completion, no errors, no NaN/negative predictions, and sane proportional scaling
 across 30/60/90-day horizons both times.

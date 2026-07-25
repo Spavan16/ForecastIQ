@@ -115,8 +115,8 @@ Optimizer, Monte Carlo, Explainability, Risk & Insights, Ask ForecastIQ).
   — reruns the full rolling-origin backtest and regenerates
   `output/backtest_summary.json` / `output/backtest_scorecard.csv` (what powers the Model
   Validation tab). Takes about a minute.
-- `./run.sh <DATA_DIR> <MODEL_PATH> <OUTPUT_PATH>` — the official hackathon evaluation
-  harness entrypoint (Linux/Mac/WSL/Git Bash; not a plain Windows PowerShell script).
+- `./run.sh <DATA_DIR> <MODEL_PATH> <OUTPUT_PATH>` — the core pipeline evaluation
+  entrypoint (Linux/Mac/WSL/Git Bash; not a plain Windows PowerShell script).
 
 ## 7. Project structure (quick orientation)
 
@@ -129,10 +129,10 @@ frontend/src/app/page.tsx The entire dashboard UI (single-page Next.js app)
 pickle/model.pkl          Trained ensemble artifact (already included, no retrain needed)
 output/                   Backtest scorecard + summary (feeds Model Validation tab)
 retrain_and_pickle.py     Full retrain script — only needed if you change data/
-run.sh                    Official hackathon submission entrypoint
+run.sh                    Core pipeline entrypoint
 ```
 
 If anything doesn't come up, ping Pavan rather than debugging blind — a couple of the
 fixes made recently (interval calibration, hierarchical reconciliation) depend on the
-exact `pickle/model.pkl` included in this zip, so a from-scratch retrain on a different
+exact `pickle/model.pkl` included in this repo, so a from-scratch retrain on a different
 machine could produce slightly different numbers than what's shown in the demo.

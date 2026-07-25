@@ -97,8 +97,8 @@ class DatabaseManager:
             if not user:
                 user = User(
                     username="executive_lead",
-                    email="lead@forecastiq.netelixir.com",
-                    agency_name="NetElixir Enterprise Agency"
+                    email="lead@forecastiq.app",
+                    agency_name="ForecastIQ Demo Agency"
                 )
                 db.add(user)
                 db.commit()

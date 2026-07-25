@@ -2,11 +2,11 @@
 Unit tests for the core forecasting invariants, as opposed to the end-to-end smoke test in
 test_run_pipeline.py.
 
-Judge audit (High Issue #6): the only test coverage in the repo was a single end-to-end
+Code audit (High Issue #6): the only test coverage in the repo was a single end-to-end
 smoke test exercising the run.sh contract. That catches "does the pipeline crash," but not
 "is the math inside it actually correct in isolation" -- e.g. a P10 > P50 violation could be
 masked in the full pipeline by real data happening to avoid the edge case, and wouldn't be
-caught until a judge's holdout data hits it differently. These tests exercise the two
+caught until unseen holdout data hits it differently. These tests exercise the two
 functions most load-bearing for the project's own headline claims (the P10/P50/P90 interval
 math models.py uses in every forecast, and the naive-baseline calc evaluation.py uses as the
 project's own "prove the ensemble earns its complexity" bar) directly, with synthetic inputs

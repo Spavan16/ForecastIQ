@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# NetElixir AIgnition 3.0 Hackathon Challenge Submission
-# Project: ForecastIQ — Marketing Revenue Forecasting & Budget Optimization Pipeline
-# Team: Bytes & Dust | Rohindth S N, Pavan Kumar S | Dayananda Sagar University, Bengaluru
+# ForecastIQ — Marketing Revenue Forecasting & Budget Optimization Pipeline
+# Author: Pavan Kumar S
 # Contract: ./run.sh <DATA_DIR> <MODEL_PATH> <OUTPUT_PATH>
 # ==============================================================================
 
@@ -13,7 +12,7 @@ set -euo pipefail
 # absolute path from a different CWD throws `ModuleNotFoundError: No module named 'src'`.
 # Anchor everything to the script's own directory instead, and cd into it so the relative
 # defaults below (./data, ./pickle, ./output, features.pkl) resolve correctly regardless
-# of where the grading harness invokes run.sh from.
+# of where the caller invokes run.sh from.
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$SCRIPT_DIR"
 

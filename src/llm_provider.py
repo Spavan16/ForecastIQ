@@ -91,7 +91,7 @@ class MockLLMProvider(BaseLLMProvider):
                 f"{overall_roas} blended ROAS."
             )
         elif "causal" in prompt.lower() or "summary" in prompt.lower():
-            # BUG fix (judge audit, "thin/templated causal summary"): this branch used to stay
+            # BUG fix (code audit, "thin/templated causal summary"): this branch used to stay
             # fully generic ("your highest-volume channels", "whichever channel is showing the
             # highest CPM/CPC volatility") even when predict.py's run.sh-invoked call already
             # had real per-channel numbers available -- it just wasn't reading them. Now reads
