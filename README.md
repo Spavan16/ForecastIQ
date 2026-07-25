@@ -3,33 +3,30 @@
 
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Runtime](https://img.shields.io/badge/network-100%25%20offline-brightgreen)
-![Hackathon](https://img.shields.io/badge/NetElixir-AIgnition%203.0-orange)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
 ![Models](https://img.shields.io/badge/ensemble-Prophet%20%7C%20XGBoost%20%7C%20LightGBM%20%7C%20CatBoost-informational)
 
-**Team:** Bytes & Dust  
-**Members:** Rohindth S N, Pavan Kumar S  
-**College / Institution:** Dayananda Sagar University, Bengaluru  
-**Challenge:** NetElixir AIgnition 3.0 Hackathon Challenge  
+**Author:** Pavan Kumar S  
 **Python Version:** 3.11+
 
 ---
 
 ## Contents
-- [Challenge & Executive Overview](#-challenge--executive-overview)
+- [Overview](#-overview)
 - [At a Glance](#-at-a-glance)
-- [Key Features & Hackathon Deliverables](#-key-features--hackathon-deliverables)
+- [Key Features](#-key-features)
 - [System Architecture & Folder Structure](#-system-architecture--folder-structure)
 - [Technical Documentation](#-technical-documentation)
 - [Execution & Demo Walkthrough](#-execution--demo-walkthrough)
 
 ---
 
-## 🏆 Challenge & Executive Overview
+## 📊 Overview
 In modern eCommerce digital marketing, agencies and brands deploy capital across fragmented acquisition channels (Google Ads, Meta Ads, Microsoft Bing Ads). Allocating budgets without predicting marginal returns or evaluating ROAS constraints often leads to severe ad waste. 
 
-**ForecastIQ** is a technically sound, operationally realistic forecasting utility built for this exact problem, with an automated command-line pipeline as its graded deliverable. Moving beyond single-model forecasting, ForecastIQ combines a multi-model weighted statistical ensemble (Prophet, XGBoost, LightGBM, CatBoost) with stochastic **Monte Carlo Risk Simulations**, an algorithmic **Optuna Budget Optimizer**, **TreeSHAP Causal Explanations**, and an **Executive AI Analyst** reasoning engine. A FastAPI/Next.js dashboard (Option 2 below) is included as an optional, illustrative frontend for the demo walkthrough — it is not the graded artifact and isn't a claim of a production SaaS product; the CLI pipeline (`./run.sh`) is.
+**ForecastIQ** is a technically sound, operationally realistic forecasting utility built for this exact problem, with an automated command-line pipeline as its core deliverable. Moving beyond single-model forecasting, ForecastIQ combines a multi-model weighted statistical ensemble (Prophet, XGBoost, LightGBM, CatBoost) with stochastic **Monte Carlo Risk Simulations**, an algorithmic **Optuna Budget Optimizer**, **TreeSHAP Causal Explanations**, and an **Executive AI Analyst** reasoning engine. A FastAPI/Next.js dashboard (Option 2 below) is included as an optional, illustrative frontend for the demo walkthrough — it is not a claim of a production SaaS product; the CLI pipeline (`./run.sh`) is the core artifact.
 
-The entire forecasting architecture functions **100% Offline** with no external network dependencies, fulfilling the strictest hackathon automation contracts.
+The entire forecasting architecture functions **100% Offline** with no external network dependencies, so it can run in locked-down or air-gapped environments.
 
 ---
 
@@ -61,17 +58,17 @@ Revenue loses to naive at every horizon under 8-fold, then wins by 40%+ under 12
 
 ---
 
-## 🚀 Key Features & Hackathon Deliverables
+## 🚀 Key Features
 
 ### 1. Master Automated Failsafe Pipeline (`./run.sh`)
-Conforming to the **Hackathon Submission Guide** contract, our root `./run.sh` script runs entirely offline, accepts standard paths, dynamically parses cross-channel datasets, builds features, evaluates pickled models, and writes schema-conforming predictions:
+The root `./run.sh` script runs entirely offline, accepts standard paths, dynamically parses cross-channel datasets, builds features, evaluates pickled models, and writes schema-conforming predictions:
 ```bash
 ./run.sh <DATA_DIR> <MODEL_PATH> <OUTPUT_PATH>
 ```
 * **Universal Dimension Fallback:** If evaluators drop in entirely unseen held-out test data containing new campaign IDs or custom channels, our model unpickling pipeline automatically evaluates their spend shares and derives mathematically rigorous P10-P50-P90 projections with zero crashes.
-* **AI-Assisted Causal Summary:** Alongside `predictions.csv`, the same `run.sh` invocation writes `output/causal_summary.json` — a data-grounded causal narrative over the 90-day Overall forecast and its channel breakdown, generated via the offline `MockLLMProvider` (no network calls, matching the "no network calls at runtime" contract). This is the same AI-abstraction layer the SaaS app uses; it's wired into the graded CLI pipeline directly rather than only being reachable through the separate FastAPI/Next.js app.
+* **AI-Assisted Causal Summary:** Alongside `predictions.csv`, the same `run.sh` invocation writes `output/causal_summary.json` — a data-grounded causal narrative over the 90-day Overall forecast and its channel breakdown, generated via the offline `MockLLMProvider` (no network calls at runtime). This is the same AI-abstraction layer the SaaS app uses; it's wired into the CLI pipeline directly rather than only being reachable through the separate FastAPI/Next.js app.
 
-**A note on output schema.** The Hackathon Submission Guide states that "output format and columns must match the format announced at the launch." As of this writing, no such format was announced or made available to us through any hackathon channel (portal, dataset resource link, or organizer communication) — we checked. In its absence, `predictions.csv` uses a long/tidy schema (`forecast_period, dimension_type, dimension_value, metric, p10, p50, p90`) chosen to cover every required breakdown (Overall/Channel/CampaignType/Campaign × 30/60/90-day × Revenue/ROAS × P10/P50/P90) in one table without an unwieldy wide-format column explosion. If a format was in fact announced somewhere we missed, please treat this as a flag to check against it before scoring, not an assumption that our choice is the required one.
+**A note on output schema.** `predictions.csv` uses a long/tidy schema (`forecast_period, dimension_type, dimension_value, metric, p10, p50, p90`) chosen to cover every required breakdown (Overall/Channel/CampaignType/Campaign × 30/60/90-day × Revenue/ROAS × P10/P50/P90) in one table without an unwieldy wide-format column explosion.
 
 ### 2. Digital Marketing Data Validation & Ingestion Engine
 * Dynamically detects cross-channel schemas across Google, Meta, and Bing Ads.
@@ -113,18 +110,18 @@ Automated generation of a multi-page professional PDF report (`Executive AI Fore
 
 ```
 /home/user/
-├── run.sh                       # Core hackathon automated execution entry point (Required)
-├── requirements.txt             # Pinned production Python dependencies (Required)
+├── run.sh                       # Core automated execution entry point
+├── requirements.txt             # Pinned production Python dependencies
 ├── README.md                    # System contract, technical documentation & demo walkthrough
 ├── data/                        # Input cross-channel analytics CSV directory
 │   ├── google_ads_campaign_stats.csv
 │   ├── meta_ads_campaign_stats.csv
 │   └── bing_campaign_stats.csv
 ├── pickle/                      # Pickle artifact directory
-│   └── model.pkl                # Committed trained multi-model ensemble artifact (Required)
+│   └── model.pkl                # Committed trained multi-model ensemble artifact
 ├── output/                      # Pipeline outputs directory
 │   ├── predictions.csv          # Conforming master P10-P50-P90 predictions table
-│   ├── causal_summary.json      # AI-assisted causal summary (required "Working Prototype" deliverable)
+│   ├── causal_summary.json      # AI-assisted causal summary
 │   └── executive_forecast_report.pdf # Formatted ReportLab PDF report
 ├── src/                         # Unified modular Core Python AI Intelligence package
 │   ├── utils.py                 # Failsafe logging, paths, configs
@@ -194,8 +191,8 @@ Our `BaseLLMProvider` interface connects to **Google Gemini (2.5 Flash)** via `.
 
 ## 💻 Execution & Demo Walkthrough
 
-### Option 1: Standalone Hackathon Automated Evaluation CLI
-To run the full hackathon testing sequence exactly as the NetElixir evaluation pipeline executes:
+### Option 1: Standalone Automated Evaluation CLI
+To run the full pipeline end to end:
 ```bash
 # 1. Clone repo and ensure run.sh is executable
 chmod +x run.sh
@@ -224,9 +221,9 @@ output/backtest_scorecard.csv   # row-level actual vs predicted comparisons
 output/backtest_summary.json    # executive metrics: WAPE, SMAPE, MAE, interval coverage
 ```
 
-This gives judges a concrete model-validation story: ForecastIQ is not only producing the required `predictions.csv`, it is also reporting forecast error and confidence-interval coverage across Overall, Channel, CampaignType, and Campaign dimensions.
+This gives a concrete model-validation story: ForecastIQ is not only producing `predictions.csv`, it is also reporting forecast error and confidence-interval coverage across Overall, Channel, CampaignType, and Campaign dimensions.
 
-**Headline accuracy vs. disclosed campaign-level variance.** The summary's `overall` block (Revenue WAPE/RMSE/SMAPE, ROAS RMSE/SMAPE, interval coverage) is computed across the **Overall, Channel, and CampaignType** dimensions only — the level a judge would actually sanity-check the model against. Individual named campaigns are reported separately in a `campaign_level` block (and per-row in the scorecard) rather than blended into that headline number, because a single campaign's forecast can miss by an order of magnitude for reasons no time-series model can see in this data (a campaign winding down mid-flight, with no end-date field to signal it). Blending that into one number would either flatter or unfairly punish the headline depending on which way a handful of volatile campaigns swing in a given backtest run — disclosing it separately is more honest and more useful to a reviewer than hiding it inside an average.
+**Headline accuracy vs. disclosed campaign-level variance.** The summary's `overall` block (Revenue WAPE/RMSE/SMAPE, ROAS RMSE/SMAPE, interval coverage) is computed across the **Overall, Channel, and CampaignType** dimensions only — the level a reviewer would actually sanity-check the model against. Individual named campaigns are reported separately in a `campaign_level` block (and per-row in the scorecard) rather than blended into that headline number, because a single campaign's forecast can miss by an order of magnitude for reasons no time-series model can see in this data (a campaign winding down mid-flight, with no end-date field to signal it). Blending that into one number would either flatter or unfairly punish the headline depending on which way a handful of volatile campaigns swing in a given backtest run — disclosing it separately is more honest and more useful to a reviewer than hiding it inside an average.
 
 Run the command below to generate (or regenerate) both artifacts with this split:
 ```bash
@@ -238,7 +235,7 @@ The backtest also compares the ensemble against a naive trailing-30-day-average 
 
 **The ROAS-vs-naive result does not hold up under the 12-fold stress test, and we're disclosing that rather than only reporting the friendlier number.** The 16.1%/29.4%/6.7% ROAS-beats-naive result above is a 3-fold number. Re-running the identical `baseline_comparison` check with `--folds 12` (`output_12fold/backtest_summary.json`, committed alongside the 3-fold result) reverses it at two of three horizons: ROAS loses to the naive baseline by -40.4% at 30 days and -43.1% at 60 days, and only narrowly wins at 90 days (+3.7%). Revenue's result moves the other direction under the same stress test -- its edge over naive *widens* to +42-46% across all three horizons, not shrinks. Our current read is that this is a metric-sensitivity artifact, not a Revenue-only fix that happens to also help ROAS: ROAS is a ratio (`revenue_p50/spend_sum`) with a much smaller denominator range than Revenue's raw dollar scale, so the same absolute forecast noise that barely moves Revenue's percentage error can swing ROAS's percentage error far more on the sparser, harder folds the 12-fold sample includes. We have not yet re-run the same `model_blend_weight`/damped-trend fixes that closed the Revenue gap with ROAS's own error decomposition as the target metric -- that is the logical next step, not yet done. Until it is, treat the 3-fold ROAS win as real but fold-count-fragile, the same caveat this section already applies to interval coverage below.
 
-**A fifth attempt, and why we stopped here.** The 30-day horizon absorbs a disproportionate share of the damped-trend anchor's influence -- summing `trend_per_day * i * PHI^i` over the forecast window shows the trend term's cumulative weight per day is roughly 2.2x higher at the 30-day horizon than at 90-day, since `PHI^i` decays fast and most of the trend's total contribution across a 90-day forecast lands inside the first 30 days. That means any noise in the trend estimate itself shows up almost undiluted in the 30-day number specifically. The natural next fix -- widening the trend-estimation window from 30-vs-30 days to 45-vs-45 days to reduce that noise -- was implemented and tested directly against the live 3-fold backtest. It made every horizon worse, not just failed to help 30-day (Revenue-vs-naive fell to -14.8%/-12.0%/-26.1% at 30/60/90 days), because the earliest fold has only 119 days of history, and a wider window consumes nearly all of it, trading a less noisy estimate for a stale one. Reverted; the change and the reasoning behind reverting it are preserved as a comment in `src/models.py` so this exact experiment isn't repeated blind. Two independent, well-motivated attempts at closing this specific gap have now failed without net benefit, which we're treating as evidence that -5.1% is close to a structural floor for this architecture on this data, not an oversight -- further tuning against a 3-fold backtest this close to submission risks fitting the folds rather than fixing anything real.
+**A fifth attempt, and why we stopped here.** The 30-day horizon absorbs a disproportionate share of the damped-trend anchor's influence -- summing `trend_per_day * i * PHI^i` over the forecast window shows the trend term's cumulative weight per day is roughly 2.2x higher at the 30-day horizon than at 90-day, since `PHI^i` decays fast and most of the trend's total contribution across a 90-day forecast lands inside the first 30 days. That means any noise in the trend estimate itself shows up almost undiluted in the 30-day number specifically. The natural next fix -- widening the trend-estimation window from 30-vs-30 days to 45-vs-45 days to reduce that noise -- was implemented and tested directly against the live 3-fold backtest. It made every horizon worse, not just failed to help 30-day (Revenue-vs-naive fell to -14.8%/-12.0%/-26.1% at 30/60/90 days), because the earliest fold has only 119 days of history, and a wider window consumes nearly all of it, trading a less noisy estimate for a stale one. Reverted; the change and the reasoning behind reverting it are preserved as a comment in `src/models.py` so this exact experiment isn't repeated blind. Two independent, well-motivated attempts at closing this specific gap have now failed without net benefit, which we're treating as evidence that -5.1% is close to a structural floor for this architecture on this data, not an oversight -- further tuning against a 3-fold backtest at this stage risks fitting the folds rather than fixing anything real.
 
 **A January-specific bug the 3-fold backtest couldn't see, and how it was found and fixed.** A separate, unrelated 12-fold backtest (`--folds 12`, same model and data, just more rolling origins -- a stress test, not new data, same as the interval-coverage check below) surfaced something the 3-fold sample happened to skip entirely: the two origins that land in January (2025-01-01, 2026-01-05) posted Revenue APE of 330-553%, an order of magnitude worse than every other fold (next-worst ~80%). Root cause, confirmed directly against the real data: Nov-Dec revenue genuinely spikes 5-10x a normal month in both 2024 and 2025, then craters back to baseline every January -- and the recent-baseline anchor's trailing 30-day window, for any January origin, *is* December. The anchor had no way to know "the last 30 days were a known seasonal spike, not the new normal," and the damped-trend term (see round 4 above), reading the same contaminated window, was extrapolating the spike even further upward into January instead of projecting the crash back down.
 
@@ -258,7 +255,7 @@ Fix: `_recent_baseline`/`_monthly_seasonal_index` in `src/models.py` now compute
 
 ForecastIQ uses a conservative calibration layer: the ensemble forecast is blended with a trailing 30-day observed revenue and spend baseline (matching the same window the naive baseline benchmark uses), then its P10/P90 bands are widened with an empirical interval scale. This improves holdout stability and confidence-interval coverage while preserving ML-driven seasonality and dimension-specific signals.
 
-**A note on interval coverage and fold-count sensitivity — corrected during pre-submission audit.** An earlier draft of this section described tuning `interval_calibration_scale` to `3.0x`, bringing 8-fold coverage to 77.0%. That description had gone stale: the scale was subsequently re-tuned again, this time against the 3-fold backtest, down to its current shipped value of `1.0x` (verified directly against the committed `pickle/model.pkl`'s stored parameters), and this section was never updated to match. We caught the mismatch ourselves during a pre-submission documentation audit and are correcting it here rather than leaving it for a judge to find first.
+**A note on interval coverage and fold-count sensitivity — corrected during a documentation audit.** An earlier draft of this section described tuning `interval_calibration_scale` to `3.0x`, bringing 8-fold coverage to 77.0%. That description had gone stale: the scale was subsequently re-tuned again, this time against the 3-fold backtest, down to its current shipped value of `1.0x` (verified directly against the committed `pickle/model.pkl`'s stored parameters), and this section was never updated to match. We caught the mismatch ourselves during a documentation audit and are correcting it here rather than leaving it for a reader to find first.
 
 Here is what the currently shipped model (`scale=1.0`) actually produces, run fresh at three fold counts, all independently reproducible via `python src/evaluation.py --data-dir ./data --output-dir <dir> --folds <N>`:
 
@@ -268,16 +265,16 @@ Here is what the currently shipped model (`scale=1.0`) actually produces, run fr
 | 8 | 53.7% | `output_8fold/backtest_summary.json` |
 | 12 | 77.6% | `output_12fold/backtest_summary.json` |
 
-Coverage does not move monotonically with fold count — 8-fold is the worst of the three, not a midpoint between 3 and 12, and we do not have a verified root cause for why. **We're flagging this explicitly as a known, unexplained open question, not a solved one** — we found and disclosed the effect but ran out of time before submission to root-cause it (e.g. checking whether it traces to a specific fold origin landing in a sparse or seasonally-unusual window, the same class of issue as the January bug documented above, remains an open next step). We chose not to re-tune `interval_calibration_scale` against this new 8-fold number under submission-deadline pressure, because doing so risks fitting this specific fold sample rather than fixing anything structural — the same overfitting trap this section already calls out for the Revenue-vs-naive tuning above. The honest summary: interval coverage against the shipped model is real, reproducible, and meaningfully below the ~90% nominal target under every fold count tested here, most severely at 8-fold. Point estimates (WAPE, ROAS/Revenue MAPE) are separate from and unaffected by this calibration layer, since the interval scale only widens P10/P90, not the P50 forecast itself.
+Coverage does not move monotonically with fold count — 8-fold is the worst of the three, not a midpoint between 3 and 12, and we do not have a verified root cause for why. **We're flagging this explicitly as a known, unexplained open question, not a solved one** — we found and disclosed the effect but haven't yet root-caused it (e.g. checking whether it traces to a specific fold origin landing in a sparse or seasonally-unusual window, the same class of issue as the January bug documented above, remains an open next step). We chose not to re-tune `interval_calibration_scale` against this new 8-fold number, because doing so risks fitting this specific fold sample rather than fixing anything structural — the same overfitting trap this section already calls out for the Revenue-vs-naive tuning above. The honest summary: interval coverage against the shipped model is real, reproducible, and meaningfully below the ~90% nominal target under every fold count tested here, most severely at 8-fold. Point estimates (WAPE, ROAS/Revenue MAPE) are separate from and unaffected by this calibration layer, since the interval scale only widens P10/P90, not the P50 forecast itself.
 
 ### Option 1C: Automated Test Suite
-No pytest dependency (kept `requirements.txt` locked this close to the deadline) — each file uses plain asserts and runs standalone with the project's own Python interpreter:
+No pytest dependency (kept `requirements.txt` lean and dependency-light) — each file uses plain asserts and runs standalone with the project's own Python interpreter:
 ```bash
 python tests/test_run_pipeline.py        # 3 tests: run.sh contract, missing/corrupt model handling
 python tests/test_unit_forecasting.py    # 6 tests: P10/P50/P90 interval math, naive baseline calc
 python tests/test_analytics_modules.py   # 11 tests: budget optimizer, Monte Carlo, risk/rule engines, scenarios
 ```
-All 20 tests pass against the currently committed `pickle/model.pkl` and `data/`. Each script prints a `PASS:` line per test and exits non-zero on any failure/assertion error, so a CI harness or a judge's terminal can tell success from failure without parsing output.
+All 20 tests pass against the currently committed `pickle/model.pkl` and `data/`. Each script prints a `PASS:` line per test and exits non-zero on any failure/assertion error, so a CI harness or a reviewer's terminal can tell success from failure without parsing output.
 
 ### Option 2: Launch the SaaS FastAPI Backend & Next.js Frontend
 To run the full SaaS prototype (backend + frontend):
@@ -308,4 +305,4 @@ npm run dev
 8. **Export Reports:** Click the `Export Executive PDF` button to instantly download the ReportLab PDF document.
 
 ---
-*Built with analytical rigor by Pavan Kumar S & Rohindth, Dayananda Sagar University — NetElixir AIgnition 3.0.*
+*Built with analytical rigor by Pavan Kumar S.*
