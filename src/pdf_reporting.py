@@ -676,7 +676,7 @@ class EnterprisePDFReport:
         story.append(KeepTogether([
             HRFlowable(width="100%", thickness=1, color=self.c_border, spaceBefore=10, spaceAfter=10),
             Paragraph("<b>ForecastIQ</b> \u2014 offline-capable marketing revenue forecasting utility.", self.styles['BodyCustom']),
-            Paragraph("<i>Engineered by Pavan Kumar S &amp; Rohindth, Dayananda Sagar University.</i>", self.styles['FootnoteText'])
+            Paragraph("<i>Engineered by Pavan Kumar S, Dayananda Sagar University.</i>", self.styles['FootnoteText'])
         ]))
 
         # Build Document
